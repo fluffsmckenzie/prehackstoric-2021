@@ -61,7 +61,6 @@ if(isset($_GET['year'])) {
     $age = $birthdate->diff($date);
 
     echo "You are " . $age->y . " years, " . $age->m . " months, and " . $age->d . " days old. ";
-    //print "Today is " . $currentDate;
 
     try {
         $dbh = new PDO('pgsql:host=localhost;port=26257;dbname=dinodb;sslmode=require;sslrootcert=certs/ca.crt;sslkey=certs/client.dinodbuser.key;sslcert=certs/client.dinodbuser.crt',
@@ -71,7 +70,6 @@ if(isset($_GET['year'])) {
                 PDO::ATTR_PERSISTENT => true
             ));
 
-        //$dbh->exec('INSERT INTO accounts (id, balance) VALUES (1, 1000), (2, 250)');
 
         foreach ($dbh->query('SELECT dinosaur, lifespan FROM dinoinfo WHERE lifespan < ' . $age->y . ' ORDER BY RANDOM() LIMIT 1') as $row) {
             print "<h3>You could outlive a ".ucwords($row['dinosaur']) . ' (Average age: ' . $row['lifespan'] . " years)</h3><br><img src=\"images/".trim($row['dinosaur']).".jpg\" height=\"400px\" />";
